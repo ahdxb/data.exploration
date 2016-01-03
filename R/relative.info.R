@@ -81,15 +81,14 @@ pointwise.relative.info <- function(data, var.x, var.y, x.value) {
 # relative.info(data = iris, var.x = "Species", var.y = "Sepal.Width")
 #
 # Synthetic dataset
-D1 <- data.frame(K = 1, Y = sample(1:2, 100, T, c(2/3,1/3)))
-D2 <- data.frame(K = 2, Y = sample(2:3, 150, T, c(1/3,2/3)))
-D3 <- data.frame(K = 3, Y = sample(3:4, 200, T, c(1/3,2/3)))
-D <- rbind(D1,D2,D3)
-plot(table(D$Y))
-relative.info(D, "K", "Y")  # 0.52
-relative.info(data = D, var.x = "K", var.y = "Y", x.value = 1)  # 0.47
-relative.info(data = D, var.x = "K", var.y = "Y", x.value = 2)  # 0.57
-relative.info(data = D, var.x = "K", var.y = "Y", x.value = 3)  # 0.51
-#
+# D1 <- data.frame(K = 1, Y = sample(1:2, 100, T))
+# D2 <- data.frame(K = 2, Y = sample(2:4, 100, T))
+# D3 <- data.frame(K = 3, Y = sample(4:7, 100, T))
+# D <- rbind(D1,D2,D3)
+# plot(table(D$Y))
+# relative.info(D, "K", "Y")  # 0.42
+# relative.info(data = D, var.x = "K", var.y = "Y", x.value = 1)  # 0.62
+# relative.info(data = D, var.x = "K", var.y = "Y", x.value = 2)  # 0.40
+# relative.info(data = D, var.x = "K", var.y = "Y", x.value = 3)  # 0.24
 #
 
