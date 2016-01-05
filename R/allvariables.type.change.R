@@ -8,9 +8,9 @@
 #' @export
 #'
 #' @examples
-allvariables.type.change <- function(data,   # a data frame
-                                 list,       # a list of (varname,vartype) pairs
-                                 data2) {    # another data frame (optional)
+allvariables.type.change <- function(data,    # a data frame
+                                     list,    # a list of (varname,vartype) pairs
+                                     data2) { # another data frame (optional)
     data.variables <- names(data)
     for (var.pair in list) {
         varname <- var.pair[1]

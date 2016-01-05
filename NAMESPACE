@@ -3,4 +3,5 @@
 export(allvariables.manual.review)
 export(allvariables.summary)
 export(allvariables.type.change)
+export(factor.factor.info)
 export(relative.info)
