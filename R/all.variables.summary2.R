@@ -2,6 +2,7 @@
 #'
 #' @param data A data frame
 #' @param clear.console (\emph{defaults to TRUE}) If TRUE, the console is cleared before each new variable's summary is printed
+#' @param max.unique.factor (\emph{defaults to 50}) When a variable's number of unique values is lower than this, the guessed type is \code{factor}
 #'
 #' @return A list of pairs (variable,type)
 #' @export
@@ -10,8 +11,10 @@
 #' allvariables.manual.review(iris)   # all default guesses are good
 #' allvariables.manual.review(mtcars) # some variables should be re-classified as integer or factor
 allvariables.manual.review <- function(data,  # a data frame
-                                       clear.console = TRUE) {
-    lapply(names(data), function(v) variable.manual.review(data,v,clear.console))
+                                       clear.console = TRUE,
+                                       max.unique.factor = 50) {
+    lapply(names(data),
+           function(v) variable.manual.review(data,v,clear.console,max.unique.factor))
 }
 
 #################################################################################
@@ -27,10 +30,16 @@ all.types <- function() c("factor",
 
 variable.manual.review <- function(data,  # a data frame
                                    var,   # a variable name
-                                   clear.console = TRUE) {
+                                   clear.console = TRUE,
+                                   max.unique.factor = 50) {
     TYPES  <- all.types()
     NTYPES <- length(TYPES)
-    guess  <- class(data[[var]])
+    values <- data[[var]]
+    guess  <- if (length(unique(values)) <= max.unique.factor) {
+                  "factor"
+              } else {
+                  class(data[[var]])
+              }
     guess.index <- if (guess %in% TYPES) { which(guess == TYPES) }
                    else { NTYPES }
     table  <- data.frame(type  = TYPES,

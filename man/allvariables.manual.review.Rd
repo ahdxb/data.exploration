@@ -4,12 +4,15 @@
 \alias{allvariables.manual.review}
 \title{Manual review of a data frame's variables}
 \usage{
-allvariables.manual.review(data, clear.console = TRUE)
+allvariables.manual.review(data, clear.console = TRUE,
+  max.unique.factor = 50)
 }
 \arguments{
 \item{data}{A data frame}
 
 \item{clear.console}{(\emph{defaults to TRUE}) If TRUE, the console is cleared before each new variable's summary is printed}
+
+\item{max.unique.factor}{(\emph{defaults to 50}) When a variable's number of unique values is lower than this, the guessed type is \code{factor}}
 }
 \value{
 A list of pairs (variable,type)
