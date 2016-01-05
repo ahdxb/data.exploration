@@ -53,29 +53,30 @@ allvariables.summary.without.output <- function(train.set, test.set, parallel = 
     #### error checking ####
     # none?
     #### function body ####
-    apply_     <- if (parallel) mclapply else lapply
-    describe_  <- function(var) {
-        train.values <- train.set[[var]]
-        train.class  <- class(train.values)
-        test.values  <- test.set[[var]]
-        test.class   <- class(test.values)
-        class_ <- if (is.null(train.values)) { paste0("0|", test.class) }
+    apply_   <- if (parallel) mclapply else lapply
+    all.vars <- union(names(train.set),names(test.set))
+    list     <- apply_(all.vars,
+                       function(v) describe.class(train.set,test.set,v))
+    data.frame( do.call("rbind",list) )
+}
+
+describe.var.factor  <- function(train.set, test.set, var) {
+    train.values <- train.set[[var]]
+    train.class  <- class(train.values)
+    test.values  <- test.set[[var]]
+    test.class   <- class(test.values)
+    class_ <- if (is.null(train.values)) { c(test.class,FALSE) }
+              else {
+                  if (is.null(test.values)) { c(train.class,FALSE) }
                   else {
-                      if (is.null(test.values)) { paste0(train.class, "|0") }
-                      else {
-                          if (train.class == test.class) { train.class }
-                          else { paste0(train.class, "|", test.class, " !!") }
-                      }
+                      if (train.class == test.class) { c(train.class,FALSE) }
+                      else { c(paste0(train.class, "|", test.class),TRUE) }
                   }
-        data.frame(name = var,
-                   train.values = length(unique(train.values)),
-                   test.values  = length(unique(test.values)),
-                   class = class_
-        )
-    }
-    train.vars <- names(train.set)
-    test.vars  <- names(test.set)
-    list <- apply_(X = union(train.vars,test.vars), FUN = describe_)
-    concat <- data.frame( do.call("rbind",list) )
-    concat[ order(concat[[2]], decreasing = TRUE), ]
+              }
+    data.frame(name  = var,
+               train = length(unique(train.values)),
+               test  = length(unique(test.values)),
+               class = class_[1],
+               class.diff = class_[2]
+    )
 }
