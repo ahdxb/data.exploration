@@ -32,5 +32,6 @@ factor.factor.info <- function(data,         # a data frame
         }
     })
     result <- data.frame(do.call("rbind",result))
-    result[order(result[["rel.info.to.output"]], decreasing = TRUE),]
+    result <- result[order(result[["rel.info.to.output"]], decreasing = TRUE),]
+    return(result)
 }
