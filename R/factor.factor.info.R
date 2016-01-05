@@ -18,18 +18,19 @@ factor.factor.info <- function(data,         # a data frame
                                list) {       # a list of (varname,vartype) pairs
     data.variables <- setdiff(names(data),var.output)
     result <- lapply(list,
-                     function(var.pair) {
-                         varname <- var.pair[1]
-                         if (!varname %in% data.variables) { return() }
-                         vartype <- var.pair[2]
-                         if (vartype == "factor") {
-                             c(varname,
-                               relative.info(data = data,
-                                             var.x = varname,
-                                             var.y = var.output))
-                         }
-                     })
+                     function(var.pair)
+    {
+        varname <- var.pair[1]
+        if (!varname %in% data.variables) { return() }
+        vartype <- var.pair[2]
+        if (vartype == "factor") {
+            data.frame(name = varname,
+                       rel.info.to.output = relative.info(data = data,
+                                                          var.x = varname,
+                                                          var.y = var.output),
+                       stringsAsFactors = FALSE)
+        }
+    })
     result <- data.frame(do.call("rbind",result))
-    colnames(result) <- c("variable", "rel.info.to.output")
     result[order(result[["rel.info.to.output"]], decreasing = TRUE),]
 }
