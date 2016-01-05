@@ -1,3 +1,13 @@
+#' Changing a data frame's variable types in bulk
+#'
+#' @param data A data frame
+#' @param list A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}
+#' @param data2 A second data frame (optional) from which values will be pulled when coercing a variable into a factor
+#'
+#' @return A modified version of \code{data}
+#' @export
+#'
+#' @examples
 allvariables.type.change <- function(data,   # a data frame
                                  list,       # a list of (varname,vartype) pairs
                                  data2) {    # another data frame (optional)
