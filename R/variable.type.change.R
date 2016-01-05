@@ -14,7 +14,7 @@ allvariables.type.change <- function(data,   # a data frame
     data.variables <- names(data)
     for (var.pair in list) {
         varname <- var.pair[1]
-        if (!varname %in% data.variables) { break }
+        if (!varname %in% data.variables) { next }
         vartype <- var.pair[2]
         if (class(data[[varname]]) != vartype) {
             data[[varname]] <- variable.type.change(data,varname,vartype,data2)
