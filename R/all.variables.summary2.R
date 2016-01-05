@@ -1,3 +1,18 @@
+#' Manual review of a data frame's variables
+#'
+#' @param data A data frame
+#' @param clear.console (\emph{defaults to TRUE}) If TRUE, the console is cleared before each new variable's summary is printed
+#'
+#' @return A list of pairs (variable,type)
+#' @export
+#'
+#' @examples
+#' allvariables.manual.review(iris)   # all default guesses are good
+#' allvariables.manual.review(mtcars) # some variables should be re-classified as integer or factor
+allvariables.manual.review <- function(data,  # a data frame
+                                       clear.console = TRUE) {
+    lapply(names(data), function(v) variable.manual.review(data,v,clear.console))
+}
 
 all.types <- function() c("factor",
                           "numeric",
@@ -18,7 +33,7 @@ variable.manual.review <- function(data,  # a data frame
                          guess = factor("", levels = c("","*")))
     table[guess.index, "guess"] <- "*"
 
-    prompt_ <- "Enter type (type nothing for default guess, X for exit and 0 for more detail): "
+    prompt_ <- "Enter type (type nothing for default guess, X for unclear and 0 for more detail): "
     prompt.error_ <- "Wrong entry. Please try again: "
     read <- "-1"
 
@@ -30,13 +45,9 @@ variable.manual.review <- function(data,  # a data frame
         print(table, right = FALSE)
         read <- readline(prompt_)
     }
-    if (read == "X") {stop("Manual exit.")}
 
-    type <- if (read == "") {TYPES[guess.index]} else {TYPES[as.integer(read)]}
+    type <- if (read == "") { TYPES[guess.index] }
+            else if (read == "X") { TYPES[NTYPES] }
+            else {TYPES[as.integer(read)]}
     return(c(var,type))
-}
-
-allvariables.manual.review <- function(data,  # a data frame
-                                       clear.console = TRUE) {
-    lapply(names(data), function(v) variable.manual.review(data,v,clear.console))
 }
