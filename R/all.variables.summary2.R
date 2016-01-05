@@ -14,12 +14,16 @@ allvariables.manual.review <- function(data,  # a data frame
     lapply(names(data), function(v) variable.manual.review(data,v,clear.console))
 }
 
+#################################################################################
+
 all.types <- function() c("factor",
                           "numeric",
                           "integer",
                           "character",
                           "Date",
                           "unclear")
+
+#################################################################################
 
 variable.manual.review <- function(data,  # a data frame
                                    var,   # a variable name
@@ -33,15 +37,21 @@ variable.manual.review <- function(data,  # a data frame
                          guess = factor("", levels = c("","*")))
     table[guess.index, "guess"] <- "*"
 
-    prompt_ <- "Enter type (type nothing for default guess, X for unclear and 0 for more detail): "
-    prompt.error_ <- "Wrong entry. Please try again: "
+    prompt_ <- "Enter type (type nothing for default guess, X for unclear and 0, S or T for more detail): "
     read <- "-1"
 
-    while (!(read == "X" || read == "" || as.integer(read) %in% 1:NTYPES)) {
+    while (!(read %in% c("","X") || as.integer(read) %in% 1:NTYPES)) {
         if (clear.console) { cat("\014") }
         print(paste0("Variable: ",var))
-        if (read == "0") { str(sample(data[[var]]), vec.len = 20) }
-        else { str(data[[var]]) }
+        if (read == "0") {
+            str(sample(data[[var]]), vec.len = 20)
+        } else if (read == "S") {
+            print(summary(data[[var]]))
+        } else if (read == "T") {
+            print(table(data[[var]]))
+        } else {
+            str(data[[var]])
+        }
         print(table, right = FALSE)
         read <- readline(prompt_)
     }
