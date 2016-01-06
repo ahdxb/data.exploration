@@ -86,3 +86,23 @@ allvariables.of.type <- function(list,    # a list of (varname,vartype) pairs
                                  type) {  # a type name
     unlist(lapply(list, function(pair) if (pair[2] == type) return(pair[1])))
 }
+
+#################################################################################
+
+#' Manually changes an element in a (name,type) list
+#'
+#' @param list A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}
+#' @param varname A variable name
+#' @param vartype A variable type
+#'
+#' @return A modified version of \code{list}
+#' @export
+#'
+#' @examples
+change.variable.type.in.list <- function(list,       # a list of (varname,vartype) pairs
+                                         varname,    # a variable name
+                                         vartype) {  # a variable type
+    lapply(list, function(pair) {
+        if (pair[1] == varname) { c(varname,vartype) } else { pair }
+    })
+}
