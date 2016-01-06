@@ -21,16 +21,14 @@ factor.factor.info <- function(data,         # a data frame
                      function(var.pair)
     {
         varname <- var.pair[1]
-        if (!varname %in% data.variables) { return() }
         vartype <- var.pair[2]
-        if (vartype == "factor") {
-            data.frame(name         = varname,
-                       levels       = length(unique(data[[varname]])),
-                       RI.to.output = relative.info(data = data,
-                                                    var.x = varname,
-                                                    var.y = var.output),
-                       stringsAsFactors = FALSE)
-        }
+        if (!varname %in% data.variables || vartype != "factor") { next }
+        data.frame(name         = varname,
+                   levels       = length(unique(data[[varname]])),
+                   RI.to.output = relative.info(data = data,
+                                                var.x = varname,
+                                                var.y = var.output),
+                   stringsAsFactors = FALSE)
     })
     result <- data.frame(do.call("rbind",result))
     result <- result[order(result[["RI.to.output"]], decreasing = TRUE),]
