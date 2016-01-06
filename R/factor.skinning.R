@@ -29,8 +29,6 @@ factor.skinning <- function(data,        # a data frame
         levels <- levels(data[[varname]])
         table  <- table(data[[varname]])
         skinny.levels <- (table < limit)
-        print(varname)
-        print(skinny.levels)
         if (!is.na(tag) && any(skinny.levels)) {
             levels(data[[varname]]) <- c(levels(data[[varname]]),tag)
         }
