@@ -22,7 +22,7 @@ factor.factor.info <- function(data,         # a data frame
     {
         varname <- var.pair[1]
         vartype <- var.pair[2]
-        if (!varname %in% data.variables || vartype != "factor") { next }
+        if (!varname %in% data.variables || vartype != "factor") { return() }
         data.frame(name         = varname,
                    levels       = length(unique(data[[varname]])),
                    RI.to.output = relative.info(data = data,
