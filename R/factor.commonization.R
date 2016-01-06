@@ -36,7 +36,7 @@ factor.commonization <- function(data1,    # a data frame
                 levels(data2[[varname]]) <- c(levels(data2[[varname]]),tag)
             }
             data1[!data1[[varname]] %in% common.levels,varname] <- tag
-            data2[!data1[[varname]] %in% common.levels,varname] <- tag
+            data2[!data2[[varname]] %in% common.levels,varname] <- tag
             data1[[varname]] <- droplevels(data1[[varname]])
             data2[[varname]] <- droplevels(data2[[varname]])
         }
