@@ -7,7 +7,6 @@
 #' @param parallel (defaults to \code{FALSE}) If \code{TRUE}, uses \code{mclapply} to list over variables
 #'
 #' @return A data frame which each row a variable in \code{train.set}
-#' @export
 #'
 #' @examples
 #' allvariables.summary(iris)
