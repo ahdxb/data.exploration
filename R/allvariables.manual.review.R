@@ -70,3 +70,19 @@ variable.manual.review <- function(data,  # a data frame
             else {TYPES[as.integer(read)]}
     return(c(var,type))
 }
+
+#################################################################################
+
+#' Extracts all variables of a given from a pair list
+#'
+#' @param list A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}
+#' @param type The name of a type, e.g. \code{"numeric"}
+#'
+#' @return A vector of variable names
+#' @export
+#'
+#' @examples
+allvariables.of.type <- function(list,    # a list of (varname,vartype) pairs
+                                 type) {  # a type name
+    unlist(lapply(list, function(pair) if (pair[2] == type) return(pair[1])))
+}
