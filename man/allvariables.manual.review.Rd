@@ -5,7 +5,7 @@
 \title{Manual review of a data frame's variables}
 \usage{
 allvariables.manual.review(data, clear.console = TRUE,
-  max.unique.factor = 50)
+  max.unique.factor = min(50, nrow(data)/10))
 }
 \arguments{
 \item{data}{A data frame}

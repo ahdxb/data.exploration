@@ -12,7 +12,7 @@
 #' allvariables.manual.review(mtcars) # some variables should be re-classified as integer or factor
 allvariables.manual.review <- function(data,  # a data frame
                                        clear.console = TRUE,
-                                       max.unique.factor = 50) {
+                                       max.unique.factor = min(50,nrow(data)/10)) {
     lapply(names(data),
            function(v) variable.manual.review(data,v,clear.console,max.unique.factor))
 }
@@ -31,7 +31,7 @@ all.types <- function() c("factor",
 variable.manual.review <- function(data,  # a data frame
                                    var,   # a variable name
                                    clear.console = TRUE,
-                                   max.unique.factor = 50) {
+                                   max.unique.factor) {
     TYPES  <- all.types()
     NTYPES <- length(TYPES)
     values <- data[[var]]
