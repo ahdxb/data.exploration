@@ -46,20 +46,27 @@ variable.manual.review <- function(data,  # a data frame
                          guess = factor("", levels = c("","*")))
     table[guess.index, "guess"] <- "*"
 
-    prompt_ <- "Enter type (type nothing for default guess, X for unclear and 0, S or T for more detail): "
+    prompt_ <- "Enter type (type nothing for default guess, X for unclear and D, S or T for more detail): "
     read <- "-1"
 
     while (!(read %in% c("","X") || as.integer(read) %in% 1:NTYPES)) {
         if (clear.console) { cat("\014") }
         print(paste0("Variable: ",var))
-        if (read == "0") {
+        if (read == "D") {
             str(sample(data[[var]]), vec.len = 20)
         } else if (read == "S") {
             print(summary(data[[var]]))
         } else if (read == "T") {
-            print(table(data[[var]]))
+            table_ <- table(data[[var]])
+            table_ <- table_[order(table_, decreasing = TRUE)]
+            lengt_ <- length(table_)
+            if (lengt_ <= max.unique.factor) { print(table_) } else {
+                print(table_[1:max.unique.factor])
+                print(paste0("Variable ",var, " has too many unique values (",
+                             lengt_,"); showing only the first ", max.unique.factor))
+            }
         } else {
-            str(data[[var]])
+            str(data[[var]], vec.len = 8)
         }
         print(table, right = FALSE)
         read <- readline(prompt_)
