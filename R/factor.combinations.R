@@ -8,9 +8,9 @@
 #' @export
 #'
 #' @examples
-factor.combinations.test <- function(data,          # a data frame
-                                     pair,          # a pair of variable names
-                                     var.output) {  # a variable name
+factor.combination.test <- function(data,          # a data frame
+                                    pair,          # a pair of variable names
+                                    var.output) {  # a variable name
     var_1  <- pair[1]
     var_2  <- pair[2]
     vals_1 <- data[[var_1]]
