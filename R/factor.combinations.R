@@ -9,10 +9,10 @@
 #' @export
 #'
 #' @examples
-#' pairs <- list(c("cyl","factor"),c("vs","factor"),c("am","factor"),
-#'               c("gear","factor"),c("carb","factor"))
-#' list  <- factor.allpairs.test(mtcars,pairs,"mpg")
-#' view.allpairs.test.result(list)
+#' list.pairs <- list(c("cyl","factor"),c("vs","factor"),c("am","factor"),
+#'                    c("gear","factor"),c("carb","factor"))
+#' list.combs  <- factor.allpairs.test(mtcars,pairs,"mpg")
+#' View(view.allpairs.test.result(list.combs))
 factor.allpairs.test <- function(data,          # a data frame
                                  list,          # a list of (varname,vartype) pairs
                                  var.output,    # a variable name
@@ -39,10 +39,11 @@ factor.allpairs.test <- function(data,          # a data frame
 #' pairs <- list(c("cyl","factor"),c("vs","factor"),c("am","factor"),
 #'               c("gear","factor"),c("carb","factor"))
 #' list  <- factor.allpairs.test(mtcars,pairs,"mpg")
-#' view.allpairs.test.result(list)
+#' View(view.allpairs.test.result(list))
 view.allpairs.test.result <- function(list) {
     table_ <- do.call("rbind",list)
     table_ <- table_[order(table_[["RI.combined"]],decreasing = TRUE),]
+    table_
 }
 
 ##########################################################################
@@ -75,42 +76,68 @@ factor.pair.test <- function(data,          # a data frame
 
 ##########################################################################
 
+#' A helper function to filter a list of combinations
+#'
+#' @param list A list such as those created by \code{factor.allpairs.test}
+#' @param max.factors An integer
+#' @param min.RI An integer
+#'
+#' @return A modified version of \code{list}
+#' @export
+#'
+#' @examples
+#' list.pairs <- list(c("cyl","factor"),c("vs","factor"),c("am","factor"),
+#'                    c("gear","factor"),c("carb","factor"))
+#' list.combs  <- factor.allpairs.test(mtcars,pairs,"mpg")
+#' list.combs2 <- select.combinations(list.combs, max.factors = 6, min.RI = 0.4)
+
+select.combinations <- function(list,          # the output of factor.allpairs.test
+                                max.factors,   # an integer
+                                min.RI) {      # a numeric in (0,1)
+    if (missing(max.factors)) { max.factors <- Inf }
+    if (missing(min.RI)) { min.RI <- 0 }
+    filter_ <- function(comb) {
+        if ((comb[["levels.C"]] <= max.factors) && (comb[["RI.combined"]] > min.RI)) { comb }
+    }
+    result <- lapply(list, filter_)
+    result <- result[!sapply(result,is.null)]
+    result
+}
+
+##########################################################################
+
 #' Adds combinations of factors to a data frame
 #'
 #' @param data A data frame
 #' @param list.pairs A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}
 #' @param list.combs A list such as those created by \code{factor.allpairs.test}
-#' @param thresh (\emph{defaults to 50}) The maximum number of levels that is accepted for a combination of factors to be added
 #'
 #' @return If \code{list.pairs} is supplied, a list whose first element is an expanded version of \code{data} and whose second element is the corresponding expanded version of \code{list.pairs}; if \code{list.pairs} is missing, returns only the modified version of \code{data}
 #' @export
 #'
 #' @examples
-#' pairs <- list(c("cyl","factor"),c("vs","factor"),c("am","factor"),
-#'               c("gear","factor"),c("carb","factor"))
-#' list  <- factor.allpairs.test(mtcars,pairs,"mpg")
-#' newdata <- factor.add.combinations(data = mtcars, list.combs = list, thresh = 6)
+#' list.pairs <- list(c("cyl","factor"),c("vs","factor"),c("am","factor"),
+#'                    c("gear","factor"),c("carb","factor"))
+#' list.combs  <- factor.allpairs.test(mtcars,pairs,"mpg")
+#' view.allpairs.test.result(list.combs)
+#' newdata <- factor.add.combinations(data = mtcars, list.combs = list.combs)
 #' head(newdata)
-#' newdata2 <- factor.add.combinations(data = mtcars, list.pairs = pairs, list.combs = list, thresh = 6)
+#' list.combs2 <- select.combinations(list.combs, max.factors = 6, min.RI = 0.4)
+#' newdata2 <- factor.add.combinations(data = mtcars, list.pairs = list.pairs, list.combs = list.combs2)
 #' head(newdata2[[1]])
 #' tail(newdata2[[2]])
-
 factor.add.combinations <- function(data,           # a data frame
                                     list.pairs,     # a list of (varname,vartype) pairs
-                                    list.combs,     # the output of factor.allpairs.test
-                                    thresh = 50) {  # the maximum number of levels for a combination
-    sep <- "__"
+                                    list.combs) {   # the output of factor.allpairs.test
+    sep    <- "__"
     vars_l <- lapply(list.combs, function(comb) {
         var_1  <- as.character(comb[["name.1"]])
         var_2  <- as.character(comb[["name.2"]])
         newvar <- interaction(data[[var_1]], data[[var_2]], sep = sep, drop = TRUE)
-        if (length(unique(newvar)) <= thresh) {
-            result <- data.frame(newvar)
-            colnames(result) <- paste0(var_1,sep,var_2)
-            return(result)
-        } else { return() }
+        result <- data.frame(newvar)
+        colnames(result) <- paste0(var_1,sep,var_2)
+        return(result)
     })
-    vars_l <- vars_l[!sapply(vars_l,is.null)]
     new.vars_ <- do.call("cbind", vars_l)
     result_1  <- data.frame(data,new.vars_)
     if (missing(list.pairs)) { return(result_1) } else {

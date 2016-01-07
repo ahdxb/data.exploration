@@ -22,9 +22,9 @@ A list
 Creates all combinations of 2 factor variables within a given scope and measures their relative information
 }
 \examples{
-pairs <- list(c("cyl","factor"),c("vs","factor"),c("am","factor"),
-              c("gear","factor"),c("carb","factor"))
-list  <- factor.allpairs.test(mtcars,pairs,"mpg")
-view.allpairs.test.result(list)
+list.pairs <- list(c("cyl","factor"),c("vs","factor"),c("am","factor"),
+                   c("gear","factor"),c("carb","factor"))
+list.combs  <- factor.allpairs.test(mtcars,pairs,"mpg")
+View(view.allpairs.test.result(list.combs))
 }
 

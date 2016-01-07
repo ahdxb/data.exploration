@@ -19,6 +19,6 @@ A helper function to view the output of factor.allpairs.test in a table format
 pairs <- list(c("cyl","factor"),c("vs","factor"),c("am","factor"),
               c("gear","factor"),c("carb","factor"))
 list  <- factor.allpairs.test(mtcars,pairs,"mpg")
-view.allpairs.test.result(list)
+View(view.allpairs.test.result(list))
 }
 

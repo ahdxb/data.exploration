@@ -4,7 +4,7 @@
 \alias{factor.add.combinations}
 \title{Adds combinations of factors to a data frame}
 \usage{
-factor.add.combinations(data, list.pairs, list.combs, thresh = 50)
+factor.add.combinations(data, list.pairs, list.combs)
 }
 \arguments{
 \item{data}{A data frame}
@@ -12,8 +12,6 @@ factor.add.combinations(data, list.pairs, list.combs, thresh = 50)
 \item{list.pairs}{A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}}
 
 \item{list.combs}{A list such as those created by \code{factor.allpairs.test}}
-
-\item{thresh}{(\emph{defaults to 50}) The maximum number of levels that is accepted for a combination of factors to be added}
 }
 \value{
 If \code{list.pairs} is supplied, a list whose first element is an expanded version of \code{data} and whose second element is the corresponding expanded version of \code{list.pairs}; if \code{list.pairs} is missing, returns only the modified version of \code{data}
@@ -22,12 +20,14 @@ If \code{list.pairs} is supplied, a list whose first element is an expanded vers
 Adds combinations of factors to a data frame
 }
 \examples{
-pairs <- list(c("cyl","factor"),c("vs","factor"),c("am","factor"),
-              c("gear","factor"),c("carb","factor"))
-list  <- factor.allpairs.test(mtcars,pairs,"mpg")
-newdata <- factor.add.combinations(data = mtcars, list.combs = list, thresh = 6)
+list.pairs <- list(c("cyl","factor"),c("vs","factor"),c("am","factor"),
+                   c("gear","factor"),c("carb","factor"))
+list.combs  <- factor.allpairs.test(mtcars,pairs,"mpg")
+view.allpairs.test.result(list.combs)
+newdata <- factor.add.combinations(data = mtcars, list.combs = list.combs)
 head(newdata)
-newdata2 <- factor.add.combinations(data = mtcars, list.pairs = pairs, list.combs = list, thresh = 6)
+list.combs2 <- select.combinations(list.combs, max.factors = 6, min.RI = 0.4)
+newdata2 <- factor.add.combinations(data = mtcars, list.pairs = list.pairs, list.combs = list.combs2)
 head(newdata2[[1]])
 tail(newdata2[[2]])
 }
