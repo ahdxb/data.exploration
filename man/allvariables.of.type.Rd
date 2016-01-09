@@ -17,4 +17,8 @@ A vector of variable names
 \description{
 Extracts all variables of a given from a pair list
 }
+\examples{
+list <- lapply(names(mtcars), function(v) c(v,class(mtcars[[v]])))
+allvariables.of.type(list, "numeric")
+}
 

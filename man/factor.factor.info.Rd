@@ -11,7 +11,7 @@ factor.factor.info(data, var.output, list)
 
 \item{var.output}{The name of the variable output}
 
-\item{list}{A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}}
+\item{list}{(\emph{optional}) A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}}
 }
 \value{
 A data frame with two columns: variable names, and their relative information to the output variable

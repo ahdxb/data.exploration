@@ -19,4 +19,8 @@ A modified version of \code{list}
 \description{
 Manually changes an element in a (name,type) list
 }
+\examples{
+list <- lapply(names(mtcars), function(v) c(v,class(mtcars[[v]])) )
+change.variable.type.in.list(list, "am", "factor")
+}
 
