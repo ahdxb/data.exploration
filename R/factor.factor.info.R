@@ -2,7 +2,7 @@
 #'
 #' @param data A data frame
 #' @param var.output The name of the variable output
-#' @param list A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}
+#' @param list (\emph{optional}) A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}
 #'
 #' @return A data frame with two columns: variable names, and their relative information to the output variable
 #' @export
@@ -16,6 +16,9 @@
 factor.factor.info <- function(data,         # a data frame
                                var.output,   # the name of the output variable
                                list) {       # a list of (varname,vartype) pairs
+    if (missing(list)) {
+        list <- lapply(names(data), function(var) c(var, class(data[[var]])))
+    }
     data.variables <- setdiff(names(data),var.output)
     result <- lapply(list,
                      function(var.pair)
