@@ -22,7 +22,7 @@
 #'
 #' @examples
 #' allvariables.manual.review(iris)   # all default guesses are good
-#' allvariables.manual.review(mtcars) # some variables should be re-classified as integer or factor
+#' allvariables.manual.review(mtcars) # some variables could be re-classified as integer or factor
 allvariables.manual.review <- function(data,  # a data frame
                                        clear.console = TRUE,
                                        max.unique.factor = min(50,nrow(data)/10)) {
