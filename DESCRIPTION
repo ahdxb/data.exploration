@@ -1,10 +1,10 @@
 Package: data.exploration
-Title: What the Package Does (one line, title case)
-Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Title: Custom Package for Tidying, Cleaning and Exploring Data
+Version: 0.0.1
+Authors@R: person("Alexandre", "Halm", email = "alexandrehalm@gmail.com", role = c("aut", "cre"))
+Description: Collection of functions to help parsing machine learning data sets with high number of variables. Currently
 Depends:
-    R (>= 3.2.2)
-License: What license is it under?
+    R (>= 3.2.2), entropy
+License: MIT
 LazyData: true
 RoxygenNote: 5.0.1
