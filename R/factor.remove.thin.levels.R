@@ -41,10 +41,10 @@ factor.remove.thin.levels <- function(data,        # a data frame
         levels <- levels(values)
         table  <- table(values)
         skinny.levels <- (table < limit)
-        if (!is.na(tag) && any(skinny.levels)) {
-            levels(data[[varname]]) <- c(levels,tag)
+        if(any(skinny.levels)) {
+            if (!is.na(tag) && !tag %in% levels) { levels(data[[varname]]) <- c(levels, tag) }
+            data[values %in% levels[skinny.levels], varname] <- tag
         }
-        data[values %in% levels[skinny.levels],varname] <- tag
         data[[varname]] <- droplevels(data[[varname]])
     }
     return(data)
