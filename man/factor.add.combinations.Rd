@@ -4,17 +4,17 @@
 \alias{factor.add.combinations}
 \title{Adds combinations of factors to a data frame}
 \usage{
-factor.add.combinations(data, list.pairs, list.combs)
+factor.add.combinations(data, vars.list, combinations)
 }
 \arguments{
 \item{data}{A data frame}
 
-\item{list.pairs}{A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}}
+\item{vars.list}{A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}}
 
 \item{list.combs}{A list such as those created by \code{factor.allpairs.test}}
 }
 \value{
-If \code{list.pairs} is supplied, a list whose first element is an expanded version of \code{data} and whose second element is the corresponding expanded version of \code{list.pairs}; if \code{list.pairs} is missing, returns only the modified version of \code{data}
+If \code{vars.list} is supplied, a list whose first element is an expanded version of \code{data} and whose second element is the corresponding expanded version of \code{vars.list}; if \code{vars.list} is missing, returns only the modified version of \code{data}
 }
 \description{
 Adds combinations of factors to a data frame
@@ -27,7 +27,7 @@ view.allpairs.test.result(list.combs)
 newdata <- factor.add.combinations(data = mtcars, list.combs = list.combs)
 head(newdata)
 list.combs2 <- select.combinations(list.combs, max.factors = 6, min.RI = 0.4)
-newdata2 <- factor.add.combinations(data = mtcars, list.pairs = list.pairs, list.combs = list.combs2)
+newdata2 <- factor.add.combinations(data = mtcars, vars.list = list.pairs, list.combs = list.combs2)
 head(newdata2[[1]])
 tail(newdata2[[2]])
 }

@@ -1,5 +1,3 @@
-# Functions:
-#
 # **export**
 # allvariables.manual.review    -> a list of pairs (varname, vartype)
 # allvariables.of.type          -> a vector of variable names
@@ -139,12 +137,14 @@ change.variable.type.in.list <- function(list,       # a list of (varname,vartyp
 #'
 #' @param data A data frame
 #' @param list A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}
-#' @param data2 A second data frame (optional) from which values will be pulled when coercing a variable into a factor
+#' @param data2 A second data frame (optional) from which levels will be pulled and added when coercing a variable into a factor
 #'
 #' @return A modified version of \code{data}
 #' @export
 #'
 #' @examples
+#' list_ <- list(c("cyl","factor"),c("am","factor"),c("vs","factor"),c("gear","factor"))
+#' str(allvariables.type.change(mtcars,list_))
 allvariables.type.change <- function(data,    # a data frame
                                      list,    # a list of (varname,vartype) pairs
                                      data2) { # another data frame (optional)

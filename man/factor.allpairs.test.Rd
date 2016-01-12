@@ -2,16 +2,19 @@
 % Please edit documentation in R/factor.combinations.R
 \name{factor.allpairs.test}
 \alias{factor.allpairs.test}
-\title{Creates all combinations of 2 factor variables within a given scope and measures their relative information}
+\title{Creates all 2-combinations of factor variables within a given scope and measures their relative information to an output variable}
 \usage{
-factor.allpairs.test(data, list, var.output, parallel = FALSE)
+factor.allpairs.test(data, vars.list, var.output, return.list = FALSE,
+  parallel = FALSE)
 }
 \arguments{
 \item{data}{A data frame}
 
-\item{list}{A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}}
+\item{vars.list}{A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}}
 
 \item{var.output}{The name of the variable output}
+
+\item{return.list}{(\emph{defaults to TRUE}) If \code{TRUE}, the function returns a list of one-line dataframes; if \code{FALSE}, it returns a concatenated dataframe sorted by decreasing value of \code{RI.combined}}
 
 \item{parallel}{(\emph{defaults to FALSE}) If TRUE, dispatches factor pairs in parallel}
 }
@@ -19,12 +22,11 @@ factor.allpairs.test(data, list, var.output, parallel = FALSE)
 A list
 }
 \description{
-Creates all combinations of 2 factor variables within a given scope and measures their relative information
+Creates all 2-combinations of factor variables within a given scope and measures their relative information to an output variable
 }
 \examples{
 list.pairs <- list(c("cyl","factor"),c("vs","factor"),c("am","factor"),
                    c("gear","factor"),c("carb","factor"))
-list.combs  <- factor.allpairs.test(mtcars,pairs,"mpg")
-View(view.allpairs.test.result(list.combs))
+factor.allpairs.test(mtcars,list.pairs,"mpg")
 }
 

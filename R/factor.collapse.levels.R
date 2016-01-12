@@ -1,8 +1,15 @@
+# **export**
+# factor.collapse.levels  ->  a list of two (modified) data frames
+#
+# **private**
+
+#################################################################################
+
 #' Reduces common factor variables of two datasets to common levels
 #'
 #' @param data1 A data frame
 #' @param data2 Another data frame
-#' @param list A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}
+#' @param vars.list A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}
 #' @param tag (\emph{defaults to NA}) A value that will replace levels that do not appear in both \code{data1[[variable]]} and \code{data2[[variable]]}
 #'
 #' @return A list of two modified data frames (\code{list(newdata1,newdata2)})
@@ -13,15 +20,17 @@
 #'                 b = factor(sample(letters[1:5],100,TRUE)))
 #' Y <- data.frame(a = factor(sample(2:4,50,TRUE)),
 #'                 b = factor(sample(letters[3:7],50,TRUE)))
-#' pairslist <- list(c("a","factor"), c("b","factor"))
-#' Z <- factor.commonization(X,Y,pairslist)
+#' Z <- factor.collapse.levels(X,Y)
 #' head(cbind(X,Y,Z[[1]],Z[[2]]), 20)
-factor.commonization <- function(data1,    # a data frame
-                                 data2,    # a second data frame
-                                 list,     # a list of (varname,vartype) pairs
-                                 tag = NA) {
+factor.collapse.levels <- function(data1,      # a data frame
+                                   data2,      # a second data frame
+                                   vars.list,  # a list of (varname,vartype) pairs
+                                   tag = NA) {
     data.variables <- intersect(names(data1),names(data2))
-    for (var.pair in list) {
+    if (missing(vars.list)) {
+        vars.list <- lapply(data.variables, function(var) c(var, class(data1[[var]])))
+    }
+    for (var.pair in vars.list) {
         varname <- var.pair[1]
         vartype <- var.pair[2]
         if (!varname %in% data.variables || vartype != "factor") { next }
