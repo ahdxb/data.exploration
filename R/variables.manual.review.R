@@ -95,7 +95,7 @@ variable.manual.review <- function(data,  # a data frame
 
 #' Extracts all variables of a given from a pair list
 #'
-#' @param list A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}
+#' @param vars.list A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}
 #' @param type The name of a type, e.g. \code{"numeric"}
 #'
 #' @return A vector of variable names
@@ -104,16 +104,17 @@ variable.manual.review <- function(data,  # a data frame
 #' @examples
 #' list <- lapply(names(mtcars), function(v) c(v,class(mtcars[[v]])))
 #' allvariables.of.type(list, "numeric")
-allvariables.of.type <- function(list,    # a list of (varname,vartype) pairs
-                                 type) {  # a type name
-    unlist(lapply(list, function(pair) if (pair[2] == type) return(pair[1])))
+allvariables.of.type <- function(vars.list, # a list of (varname,vartype) pairs
+                                 type) {    # a type name
+    unlist(lapply(vars.list,
+                  function(pair) if (pair[2] == type) return(pair[1])))
 }
 
 #################################################################################
 
 #' Manually changes an element in a (name,type) list
 #'
-#' @param list A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}
+#' @param vars.list A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}
 #' @param varname A variable name
 #' @param vartype A variable type
 #'
@@ -123,10 +124,10 @@ allvariables.of.type <- function(list,    # a list of (varname,vartype) pairs
 #' @examples
 #' list <- lapply(names(mtcars), function(v) c(v,class(mtcars[[v]])) )
 #' change.variable.type.in.list(list, "am", "factor")
-change.variable.type.in.list <- function(list,       # a list of (varname,vartype) pairs
+change.variable.type.in.list <- function(vars.list,  # a list of (varname,vartype) pairs
                                          varname,    # a variable name
                                          vartype) {  # a variable type
-    lapply(list, function(pair) {
+    lapply(vars.list, function(pair) {
         if (pair[1] == varname) { c(varname,vartype) } else { pair }
     })
 }
@@ -136,7 +137,7 @@ change.variable.type.in.list <- function(list,       # a list of (varname,vartyp
 #' Changing a data frame's variable types in bulk
 #'
 #' @param data A data frame
-#' @param list A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}
+#' @param vars.list A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}
 #' @param data2 A second data frame (optional) from which levels will be pulled and added when coercing a variable into a factor
 #'
 #' @return A modified version of \code{data}
@@ -145,11 +146,11 @@ change.variable.type.in.list <- function(list,       # a list of (varname,vartyp
 #' @examples
 #' list_ <- list(c("cyl","factor"),c("am","factor"),c("vs","factor"),c("gear","factor"))
 #' str(allvariables.type.change(mtcars,list_))
-allvariables.type.change <- function(data,    # a data frame
-                                     list,    # a list of (varname,vartype) pairs
-                                     data2) { # another data frame (optional)
+allvariables.type.change <- function(data,      # a data frame
+                                     vars.list, # a list of (varname,vartype) pairs
+                                     data2) {   # another data frame (optional)
     data.variables <- names(data)
-    for (var.pair in list) {
+    for (var.pair in vars.list) {
         varname <- var.pair[1]
         if (!varname %in% data.variables) { next }
         vartype <- var.pair[2]

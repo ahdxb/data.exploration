@@ -4,10 +4,10 @@
 \alias{change.variable.type.in.list}
 \title{Manually changes an element in a (name,type) list}
 \usage{
-change.variable.type.in.list(list, varname, vartype)
+change.variable.type.in.list(vars.list, varname, vartype)
 }
 \arguments{
-\item{list}{A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}}
+\item{vars.list}{A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}}
 
 \item{varname}{A variable name}
 

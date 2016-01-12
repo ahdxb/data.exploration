@@ -4,12 +4,12 @@
 \alias{allvariables.type.change}
 \title{Changing a data frame's variable types in bulk}
 \usage{
-allvariables.type.change(data, list, data2)
+allvariables.type.change(data, vars.list, data2)
 }
 \arguments{
 \item{data}{A data frame}
 
-\item{list}{A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}}
+\item{vars.list}{A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}}
 
 \item{data2}{A second data frame (optional) from which levels will be pulled and added when coercing a variable into a factor}
 }

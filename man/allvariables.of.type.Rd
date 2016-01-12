@@ -4,10 +4,10 @@
 \alias{allvariables.of.type}
 \title{Extracts all variables of a given from a pair list}
 \usage{
-allvariables.of.type(list, type)
+allvariables.of.type(vars.list, type)
 }
 \arguments{
-\item{list}{A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}}
+\item{vars.list}{A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}}
 
 \item{type}{The name of a type, e.g. \code{"numeric"}}
 }
