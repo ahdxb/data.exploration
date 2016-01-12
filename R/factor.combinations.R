@@ -33,7 +33,9 @@ factor.allpairs.test <- function(data,          # a data frame
         vars.list <- lapply(names(data), function(var) c(var, class(data[[var]])))
     }
     apply_      <- if (parallel) { require(parallel); mclapply } else { lapply }
-    all.factors <- intersect(allvariables.of.type(vars.list,"factor"),names(data))
+    all.factors <- setdiff(intersect(allvariables.of.type(vars.list,"factor"),
+                                     names(data)),
+                           var.output)
     all.pairs_l <- combn(all.factors, m = 2, simplify = FALSE)
     result <- apply_(all.pairs_l,
                      function(p) factor.pair.test(data = data,
