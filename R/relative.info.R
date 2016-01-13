@@ -1,3 +1,13 @@
+# **export**
+# relative.info
+# penalized.relative.info
+#
+# **private**
+# total.relative.info
+# pointwise.relative.info
+
+#################################################################################
+
 #' Relative information
 #'
 #' @param data A data frame
@@ -23,6 +33,8 @@ relative.info <- function(data, var.x, var.y, x.value) {
     }
 }
 
+#################################################################################
+
 total.relative.info <- function(data, var.x, var.y) {
     #### required libs ####
     require(entropy)
@@ -39,6 +51,8 @@ total.relative.info <- function(data, var.x, var.y) {
     entr_y <- entropy.empirical( table( data[[var.y]] ))
     return(mi_x_y / entr_y)
 }
+
+#################################################################################
 
 pointwise.relative.info <- function(data, var.x, var.y, x.value) {
     #### required libs ####
@@ -92,3 +106,30 @@ pointwise.relative.info <- function(data, var.x, var.y, x.value) {
 # relative.info(data = D, var.x = "K", var.y = "Y", x.value = 3)  # 0.24
 #
 
+#################################################################################
+
+#' Penalized relative information
+#'
+#' @param data A data frame
+#' @param var.x The \emph{regressor} (or \emph{predictor}) variable (has to be the name of a variable in \code{data})
+#' @param var.y The \emph{output} variable (has to be the name of a variable in \code{data})
+#' @param alpha (\emph{defaults to 2}) A numeric
+#'
+#' @return PenRI(var.y|var.x;alpha) = Sum_(a ~ var.x) P(a)^(alpha) * PointRI(var.y|var.x = a)
+#' @export
+#'
+#' @examples
+#' list.pairs <- list(c("cyl","factor"),c("am","factor"),c("vs","factor"),c("gear","factor"))
+#' mtcars2 <- allvariables.type.change(mtcars, list.pairs)
+#' penalized.relative.info(mtcars2,"cyl","gear",3/2)
+penalized.relative.info <- function(data, var.x, var.y, alpha = 2) {
+    require(entropy)
+    data.nrow    <- nrow(data)
+    values.var.x <- data[[var.x]]
+    table.data.x <- table(values.var.x)
+    sum(sapply(unique(values.var.x),
+                   function(s) {
+                       proba <- as.numeric(table.data.x[as.character(s)]/data.nrow)
+                       proba ^ alpha * pointwise.relative.info(data, var.x, var.y, x.value = s)
+               }))
+}
