@@ -33,6 +33,7 @@ allvariables.manual.review <- function(data,  # a data frame
 #################################################################################
 
 all.types <- function() c("factor",
+                          "ordinal",
                           "numeric",
                           "integer",
                           "character",
@@ -69,9 +70,9 @@ variable.manual.review <- function(data,  # a data frame
             str(sample(data[[var]]), vec.len = 20)
         } else if (read == "S") {
             print(summary(data[[var]]))
-        } else if (read == "T") {
+        } else if (read == "T" || read == "t") {
             table_ <- table(data[[var]])
-            table_ <- table_[order(table_, decreasing = TRUE)]
+            if (read == "t") { table_ <- table_[order(table_, decreasing = TRUE)] }
             lengt_ <- length(table_)
             if (lengt_ <= max.unique.factor) { print(table_) } else {
                 print(table_[1:max.unique.factor])
@@ -165,14 +166,19 @@ allvariables.type.change <- function(data,      # a data frame
 
 variable.type.change <- function(data, varname, vartype, data2) {
     if (vartype == "factor") {
-        if (missing(data2)) {
-            return(as.factor(data[[varname]]))
-        } else {
-            return(factor(data[[varname]],
-                          levels = union(unique(data[[varname]]),
-                                         unique(data2[[varname]]))
-            ))
-        }
+        return(factor(data[[varname]],
+                      ordered = FALSE,
+                      labels = if (missing(data2)) { unique(data[[varname]]) } else {
+                          union(unique(data[[varname]]), unique(data2[[varname]]))
+                      }))
+    } else if (vartype == "ordinal") {
+        return(factor(data[[varname]],
+                      ordered = TRUE,
+                      labels = sort(
+                          if (missing(data2)) { unique(data[[varname]]) } else {
+                              union(unique(data[[varname]]), unique(data2[[varname]]))
+                          }
+                      )))
     } else if (vartype == "numeric") {
         return(as.numeric(data[[varname]]))
     } else if (vartype == "integer") {
