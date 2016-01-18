@@ -4,7 +4,7 @@
 \alias{factor.allpairs.test}
 \title{Creates all 2-combinations of factor variables within a given scope and measures their relative information to an output variable}
 \usage{
-factor.allpairs.test(data, vars.list, var.output, max.factors = 10,
+factor.allpairs.test(data, vars.list, var.output, max.factors = Inf,
   return.list = FALSE, parallel = FALSE)
 }
 \arguments{
