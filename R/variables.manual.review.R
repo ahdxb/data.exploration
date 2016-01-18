@@ -169,14 +169,14 @@ variable.type.change <- function(data, varname, vartype, data2) {
         return(factor(data[[varname]],
                       ordered = FALSE,
                       exclude = NULL,
-                      labels = if (missing(data2)) { unique(data[[varname]]) } else {
+                      levels  = if (missing(data2)) { unique(data[[varname]]) } else {
                           union(unique(data[[varname]]), unique(data2[[varname]]))
                       }))
     } else if (vartype == "ordinal") {
         return(factor(data[[varname]],
                       ordered = TRUE,
                       exclude = NULL,
-                      labels = sort(
+                      levels  = sort(
                           if (missing(data2)) { unique(data[[varname]]) } else {
                               union(unique(data[[varname]]), unique(data2[[varname]]))
                           }
