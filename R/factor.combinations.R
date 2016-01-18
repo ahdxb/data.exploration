@@ -14,6 +14,7 @@
 #' @param data A data frame
 #' @param vars.list A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}
 #' @param var.output The name of the variable output
+#' @param max.factors An integer; factors with more factors than this integer are not taken into account
 #' @param parallel (\emph{defaults to FALSE}) If TRUE, dispatches factor pairs in parallel
 #' @param return.list (\emph{defaults to TRUE}) If \code{TRUE}, the function returns a list of one-line dataframes; if \code{FALSE}, it returns a concatenated dataframe sorted by decreasing value of \code{RI.combined}
 #'
@@ -27,6 +28,7 @@
 factor.allpairs.test <- function(data,          # a data frame
                                  vars.list,     # a list of (varname,vartype) pairs
                                  var.output,    # a variable name
+                                 max.factors = Inf,
                                  return.list = FALSE,
                                  parallel = FALSE) {
     if (missing(vars.list)) {
@@ -36,6 +38,9 @@ factor.allpairs.test <- function(data,          # a data frame
     all.factors <- setdiff(intersect(allvariables.of.type(vars.list,"factor"),
                                      names(data)),
                            var.output)
+    all.factors <- all.factors[sapply(all.factors,
+                                      function(n) length(unique(data[[n]])) <=
+                                          max.factors)]
     all.pairs_l <- combn(all.factors, m = 2, simplify = FALSE)
     result <- apply_(all.pairs_l,
                      function(p) factor.pair.test(data = data,

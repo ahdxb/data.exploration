@@ -4,8 +4,8 @@
 \alias{factor.allpairs.test}
 \title{Creates all 2-combinations of factor variables within a given scope and measures their relative information to an output variable}
 \usage{
-factor.allpairs.test(data, vars.list, var.output, return.list = FALSE,
-  parallel = FALSE)
+factor.allpairs.test(data, vars.list, var.output, max.factors = 10,
+  return.list = FALSE, parallel = FALSE)
 }
 \arguments{
 \item{data}{A data frame}
@@ -13,6 +13,8 @@ factor.allpairs.test(data, vars.list, var.output, return.list = FALSE,
 \item{vars.list}{A list of pairs (variable.name,variable.type) such as those produced by \code{allvariables.manual.review}}
 
 \item{var.output}{The name of the variable output}
+
+\item{max.factors}{An integer; factors with more factors than this integer are not taken into account}
 
 \item{return.list}{(\emph{defaults to TRUE}) If \code{TRUE}, the function returns a list of one-line dataframes; if \code{FALSE}, it returns a concatenated dataframe sorted by decreasing value of \code{RI.combined}}
 
